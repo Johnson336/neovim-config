@@ -20,7 +20,7 @@ function lazy.setup(plugins)
   end
 
   -- You can comment out the line below after lazy.nvim is installed
-  lazy.install(lazy.path)
+--  lazy.install(lazy.path)
 
   vim.opt.rtp:prepend(lazy.path)
 
@@ -147,6 +147,8 @@ lazy.setup({
       ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
       ['<leader>g'] = { name = '[G]it fugitive', _ = 'which_key_ignore' },
       ['<leader>b'] = { name = '[B]ufferLine', _ = 'which_key_ignore' },
+      ['<leader>f'] = { name = '[F]loaterm', _ = 'which_key_ignore' },
+
       }
     end,
   },
@@ -423,9 +425,9 @@ lazy.setup({
                 -- for your neovim configuration.
                 library = {
                   -- Local LotJ Lua API definitions library
-                  '~/Documents/code/web/js/mushclient-web-scraper/MUSHclientAPI/',
-                  '~/Documents/Code/MUSHclient/lua/',
-                  '~/Documents/Code/web/js/web-scraper-nodejs/LotJLuaAPI/',
+                  --'~/Documents/code/web/js/mushclient-web-scraper/MUSHclientAPI/',
+                  --'~/Documents/Code/MUSHclient/lua/',
+                  --'~/Documents/Code/web/js/web-scraper-nodejs/LotJLuaAPI/',
                   '${3rd}/luv/library',
                   unpack(vim.api.nvim_get_runtime_file('', true)),
                 },
@@ -622,6 +624,16 @@ lazy.setup({
   {
     'xiyaowong/transparent.nvim',
     opts = {},
+  },
+  {
+    'voldikss/vim-floaterm',
+    keys = {
+      { '<leader>fn', '<CMD>FloatermNew! cd %:p:h<CR>', desc = '[F]loaterm [N]ew window' },
+      { '<leader>ft', '<CMD>FloatermNew! cd %:p:h<CR>', desc = '[F]loaterm [T]oggle window' },
+      { '<leader>fm', '<CMD>FloatermNew --autoclose=0 cd %:p:h && make<CR>', desc = '[F]loaterm [M]ake' },
+      { '<leader>fr', '<CMD>FloatermNew --autoclose=0 cd %:p:h && make && make run<CR>', desc = '[F]loaterm Make and [R]un' },
+      { '<leader>fk', '<CMD>FloatermKill!<cr>', desc = '[F]loaterm [K]ill' },
+    }
   },
 
 })

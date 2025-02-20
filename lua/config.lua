@@ -64,6 +64,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = 'Drag selection down', silent = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = 'Drag selection up', silent = true })
 
+
 --[[
 vim.keymap.set('n', '<leader>bh', vim.cmd('BufferlineCyclePrev'), { desc = 'Move to the previous bufferline tab' })
 vim.keymap.set('n', '<leader>bl', vim.cmd('BufferlineCycleNext'), { desc = 'Move to the next bufferline tab' })
