@@ -629,6 +629,9 @@ lazy.setup({
     'easymotion/vim-easymotion',
   },
   {
+    'tpope/vim-surround',
+  },
+  {
     'voldikss/vim-floaterm',
     keys = {
       { '<leader>fn', '<CMD>FloatermNew! cd %:p:h<CR>', desc = '[F]loaterm [N]ew window' },
