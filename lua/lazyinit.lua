@@ -411,10 +411,10 @@ lazy.setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
-
+        --[[
         lua_ls = {
           -- cmd = {...},
-          -- filetypes { ...},
+          filetypes = { '.lua', '.xml', },
           -- capabilities = {},
           settings = {
             Lua = {
@@ -424,29 +424,77 @@ lazy.setup({
                 -- Tells lua_ls where to find all the Lua files that you have loaded
                 -- for your neovim configuration.
                 library = {
+                  vim.env.VIMRUNTIME,
                   -- Local LotJ Lua API definitions library
-                  --'~/Documents/code/web/js/mushclient-web-scraper/MUSHclientAPI/',
-                  --'~/Documents/Code/MUSHclient/lua/',
+                  '~/Documents/Code/web/js/mushclient-web-scraper/MUSHclientAPI/',
+                  '~/Documents/Code/Mushclient/lua/',
                   --'~/Documents/Code/web/js/web-scraper-nodejs/LotJLuaAPI/',
                   '${3rd}/luv/library',
-                  unpack(vim.api.nvim_get_runtime_file('', true)),
+                  --unpack(vim.api.nvim_get_runtime_file('', true)),
                 },
                 -- If lua_ls is really slow on your computer, you can try this instead:
                 -- library = { vim.env.VIMRUNTIME },
               },
               completion = {
-                callSnippet = 'Replace',
+                callSnippet = 'Both',
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               diagnostics = {
                 disable = {
-                  'missing-fields',
-                  'lowercase-global',
+                  --'missing-fields',
+                  --'lowercase-global',
                 }
               },
             },
           },
         },
+        ]]--
+
+      }
+
+      -- Lua language Server
+      require'lspconfig'.lua_ls.setup {
+        on_init = function(client)
+          if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if path ~= vim.fn.stdpath('config') and (vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc')) then
+              return
+            end
+          end
+
+          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT'
+            },
+            -- make the server aware of neovim runtime files
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                -- Add additional workspace paths here
+                --'/home/cole/Documents/Code/web/js/mushclient-web-scraper/MUSHclientAPI/',
+                --'/home/cole/Documents/Code/Mushclient/lua/',
+                '${3rd}/luv/library',
+                --unpack(vim.api.nvim_get_runtime_file('', true)),
+              },
+            },
+            completion = {
+              callSnippet = 'Both',
+            },
+            diagnostics = {
+              disable = {
+                --'unused-local',
+                --'missing-fields',
+                'lowercase-global',
+              }
+            },
+          })
+        end,
+        settings = {
+          Lua = {}
+        }
       }
 
       -- Ensure the servers and tools above are installed
