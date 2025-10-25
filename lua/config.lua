@@ -4,7 +4,7 @@ local opt = vim.opt
 -- Keybinds
 vim.g.mapleader = ' '
 vim.g.localleader = ' '
---vim.g.have_nerd_font = true -- enable nerd font extended icon set
+vim.g.have_nerd_font = true -- enable nerd font extended icon set
 
 
 
