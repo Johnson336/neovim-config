@@ -161,8 +161,8 @@ lazy.setup({
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
+    version = '*',
     event = 'VimEnter',
-    branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { -- If encountering errors, see telescope-fzf-native README for install instructions
@@ -216,6 +216,14 @@ lazy.setup({
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          layout_strategy = 'flex', -- or any other valid layout
+          layout_config = {
+            flex = {
+              flip_columns = 120,
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -453,49 +461,49 @@ lazy.setup({
       }
 
       -- Lua language Server
-      require'lspconfig'.lua_ls.setup {
-        on_init = function(client)
-          if client.workspace_folders then
-            local path = client.workspace_folders[1].name
-            if path ~= vim.fn.stdpath('config') and (vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc')) then
-              return
-            end
-          end
-
-          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
-              version = 'LuaJIT'
-            },
-            -- make the server aware of neovim runtime files
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                vim.env.VIMRUNTIME,
-                -- Add additional workspace paths here
-                --'/home/cole/Documents/Code/web/js/mushclient-web-scraper/MUSHclientAPI/',
-                --'/home/cole/Documents/Code/Mushclient/lua/',
-                '${3rd}/luv/library',
-                --unpack(vim.api.nvim_get_runtime_file('', true)),
-              },
-            },
-            completion = {
-              callSnippet = 'Both',
-            },
-            diagnostics = {
-              disable = {
-                --'unused-local',
-                --'missing-fields',
-                'lowercase-global',
-              }
-            },
-          })
-        end,
-        settings = {
-          Lua = {}
-        }
-      }
+--      require'lspconfig'.lua_ls.setup {
+--        on_init = function(client)
+--          if client.workspace_folders then
+--            local path = client.workspace_folders[1].name
+--            if path ~= vim.fn.stdpath('config') and (vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc')) then
+--              return
+--            end
+--          end
+--
+--          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+--            runtime = {
+--              -- Tell the language server which version of Lua you're using
+--              -- (most likely LuaJIT in the case of Neovim)
+--              version = 'LuaJIT'
+--            },
+--            -- make the server aware of neovim runtime files
+--            workspace = {
+--              checkThirdParty = false,
+--              library = {
+--                vim.env.VIMRUNTIME,
+--                -- Add additional workspace paths here
+--                --'/home/cole/Documents/Code/web/js/mushclient-web-scraper/MUSHclientAPI/',
+--                --'/home/cole/Documents/Code/Mushclient/lua/',
+--                '${3rd}/luv/library',
+--                --unpack(vim.api.nvim_get_runtime_file('', true)),
+--              },
+--            },
+--            completion = {
+--              callSnippet = 'Both',
+--            },
+--            diagnostics = {
+--              disable = {
+--                --'unused-local',
+--                --'missing-fields',
+--                'lowercase-global',
+--              }
+--            },
+--          })
+--        end,
+--        settings = {
+--          Lua = {}
+--        }
+--      }
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
